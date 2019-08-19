@@ -4,16 +4,6 @@ class User < ActiveRecord::Base
   has_many :rsvps
   has_many :meetups, through: :rsvps
 
-  def self.find_by_id(user_id)
-    self.all.find do |user|
-      user.id == user_id
-    end
-  end
-
-  def self.find_name_by_id(user_id)
-    self.find_by_id(user_id).name
-  end
-
   def join_group(group)
     Membership.create(
       user_id: self.id,

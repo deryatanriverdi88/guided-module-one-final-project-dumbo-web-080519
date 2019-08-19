@@ -19,7 +19,7 @@ def welcome
 end
 
 def main_menu(user_id)
-  puts "Welcome #{User.find_name_by_id(user_id)}!"
+  puts "Welcome #{User.find(user_id).name}!"
   puts "Main Menu :"
   puts "1 - Find a random group."
   puts "2 - See what groups you are in."
