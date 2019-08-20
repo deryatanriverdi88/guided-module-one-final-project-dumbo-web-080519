@@ -4,6 +4,7 @@ class Group < ActiveRecord::Base
 
 
   def self.find_random_group(user_object)
+    system "clear"
     random_group = Group.all.sample
     puts random_group.title
     random_group_prompt = TTY::Prompt.new.select("What would you like to do?") do |menu|

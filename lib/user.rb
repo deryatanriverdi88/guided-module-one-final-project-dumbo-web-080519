@@ -14,20 +14,31 @@ class User < ActiveRecord::Base
 
   def update_age
     puts "Enter your age."
-    self.age = STDIN.gets.chomp
+    new_age = Integer(gets) rescue false
+    if new_age
+      self.update(age: new_age)
+    else
+      puts "Please enter a vaild age. (Integer)"
+      self.update_age
+    end
     Interface.main_menu(self)
   end
 
   def update_location
     puts "Enter your location."
-    self.location = STDIN.gets.chomp
+    self.update(location: STDIN.gets.chomp)
     Interface.main_menu(self)
   end
 
   def self.handle_new_user
-    puts "What do you want your username to be?"
-    username = STDIN.gets.chomp
-    User.create(name: username)
+    # puts "What do you want your username to be?"
+    username = TTY::Prompt.new.ask("What do you want your username to be?", active_color: :red)
+    if User.find_by(name: username)
+      TTY::Prompt.new.keypress("A user with that username already exists. Press any key to try again.")
+      nil
+    else
+      User.create(name: username)
+    end
   end
 
   def self.handle_returning_user
@@ -36,7 +47,7 @@ class User < ActiveRecord::Base
     if User.find_by(name: username)
       User.find_by(name: username)
     else
-      puts "No user with that username exists. Try again."
+      TTY::Prompt.new.keypress("No user with that username exists. Press any key to try again.")
       Interface.welcome
     end
   end
