@@ -6,5 +6,6 @@ gem "sqlite3"
 gem 'rest-client'
 gem 'nokogiri'
 gem 'json'
+gem 'tty-prompt'
 gem "pry"
 gem "require_all"

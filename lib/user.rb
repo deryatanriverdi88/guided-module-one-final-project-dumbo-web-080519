@@ -20,10 +20,10 @@ class User < ActiveRecord::Base
   end
 
   def leave_group(selected_group_id)
-    group_to_destroy = self.list_groups.find do |memberships|
+    membership_to_destroy = self.list_groups.find do |memberships|
       memberships.group_id == selected_group_id
     end
-    group_to_destroy.destroy
+    membership_to_destroy.destroy
   end
 
 end

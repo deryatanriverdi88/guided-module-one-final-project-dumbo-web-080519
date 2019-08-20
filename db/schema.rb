@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190819152941) do
+ActiveRecord::Schema.define(version: 20190820012546) do
 
   create_table "groups", force: :cascade do |t|
     t.string "title"
@@ -21,7 +21,8 @@ ActiveRecord::Schema.define(version: 20190819152941) do
   create_table "meetups", force: :cascade do |t|
     t.integer "group_id"
     t.string  "location"
-    t.date    "datetime"
+    t.date    "date"
+    t.time    "time"
   end
 
   create_table "memberships", force: :cascade do |t|
