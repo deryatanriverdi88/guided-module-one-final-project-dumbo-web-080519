@@ -17,10 +17,12 @@ class Interface
 
   def self.main_menu(user_object)
     puts "Welcome #{user_object.name}!"
+    puts "#{user_object.age}, #{user_object.location}"
     @@prompt.select("Main menu :") do |menu|
       menu.choice "Find a random group.", -> {Group.find_random_group(user_object)}
       menu.choice "See what groups you are a member of.", -> {user_object.list_groups}
       menu.choice "See which events you have RSVP'd to.", -> {user_object.show_rsvp}
+      menu.choice "Update your account information.", -> {user_object.update_account_info}
       menu.choice "Exit.", -> {exit!}
     end
   end
@@ -38,6 +40,13 @@ class Interface
   def self.meetup_menu(user_object, meetup_object)
     event_menu = TTY::Prompt.new.select("What would you like to do?") do |menu|
       menu.choice "RSVP to this event.", -> {user_object.create_rsvp(meetup_object)}
+      menu.choice "Go back to main menu.", -> {Interface.main_menu(user_object)}
+    end
+  end
+
+  def self.rsvp_menu(user_object, rsvp_object)
+    rsvp_prompt = TTY::Prompt.new.select("What would you like to do?") do |menu|
+      menu.choice "Delete RSVP.", -> {user_object.destroy_rsvp(rsvp_object)}
       menu.choice "Go back to main menu.", -> {Interface.main_menu(user_object)}
     end
   end
