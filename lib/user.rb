@@ -4,6 +4,18 @@ class User < ActiveRecord::Base
   has_many :rsvps
   has_many :meetups, through: :rsvps
 
+  def self.handle_new_user
+    puts "What do you want your username to be?"
+    username = STDIN.gets.chomp
+    User.create(name: username)
+  end
+
+  def self.handle_returning_user
+    puts "What is your username?"
+    username = STDIN.gets.chomp
+    User.find_by(name: username)
+  end
+
   def join_group(group)
     Membership.create(
       user_id: self.id,
@@ -25,5 +37,6 @@ class User < ActiveRecord::Base
     end
     membership_to_destroy.destroy
   end
+
 
 end
