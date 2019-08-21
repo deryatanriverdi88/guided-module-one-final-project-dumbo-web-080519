@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
     if new_age
       self.update(age: new_age)
     else
-      puts "Please enter a vaild age. (Integer)"
+      puts Pastel.new.red("Please enter a vaild age. (Integer)")
       self.update_age
     end
     Interface.main_menu(self)
@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
     # puts "What do you want your username to be?"
     username = TTY::Prompt.new.ask("What do you want your username to be?", active_color: :red)
     if User.find_by(name: username)
-      TTY::Prompt.new.keypress("A user with that username already exists. Press any key to try again.")
+      TTY::Prompt.new.keypress(Pastel.new.red("\nA user with that username already exists. Press any key to try again."))
       nil
     else
       User.create(name: username)
@@ -47,7 +47,7 @@ class User < ActiveRecord::Base
     if User.find_by(name: username)
       User.find_by(name: username)
     else
-      TTY::Prompt.new.keypress("No user with that username exists. Press any key to try again.")
+      TTY::Prompt.new.keypress(Pastel.new.red("No user with that username exists. Press any key to try again."))
       Interface.welcome
     end
   end
@@ -61,7 +61,7 @@ class User < ActiveRecord::Base
         group_name: group.title
       )
     else
-      puts "You are already a member of this group!"
+      TTY::Prompt.new.keypress(Pastel.new.red("You are already a member of this group! Press any key to continue."))
     end
     Interface.main_menu(self)
   end
@@ -83,20 +83,20 @@ class User < ActiveRecord::Base
       membership_prompt = TTY::Prompt.new.select("Pick a group:", membership_hash)
       Interface.group_menu(self, membership_prompt)
     else
-      puts "You are not in any groups!"
+      TTY::Prompt.new.keypress(Pastel.new.red("You are not in any groups! Press any key to continue."))
       Interface.main_menu(self)
     end
   end
 
   def leave_group(membership_object)
     membership_object.destroy
-    puts "You have left the group successfully."
+    TTY::Prompt.new.keypress(Pastel.new.red("You have left the group successfully. Press any key to continue."))
     Interface.main_menu(self)
   end
 
   def create_rsvp(meetup_object)
     Rsvp.create(user_id: self.id, meetup_id: meetup_object.id)
-    puts "You have RSVP'd to this meetup!"
+    TTY::Prompt.new.keypress(Pastel.new.red("You have RSVP'd to this meetup! Press any key to continue."))
     Interface.main_menu(self)
   end
 
@@ -118,14 +118,14 @@ class User < ActiveRecord::Base
       rsvp_prompt = TTY::Prompt.new.select("Pick an RSVP:", rsvp_hash)
       Interface.rsvp_menu(self, rsvp_prompt)
     else
-      puts "You have not RSVP'd to any events."
+      TTY::Prompt.new.keypress(Pastel.new.red("You have not RSVP'd to any events. Press any key to continue."))
       Interface.main_menu(self)
     end
   end
 
   def destroy_rsvp(rsvp_object)
     rsvp_object.destroy
-    puts "You have canceled your RSVP."
+    TTY::Prompt.new.keypress(Pastel.new.red("You have canceled your RSVP. Press any key to continue."))
     Interface.main_menu(self)
   end
 end

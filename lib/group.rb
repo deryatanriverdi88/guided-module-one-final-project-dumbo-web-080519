@@ -6,7 +6,7 @@ class Group < ActiveRecord::Base
   def self.find_random_group(user_object)
     system "clear"
     random_group = Group.all.sample
-    puts random_group.title
+    puts Pastel.new.red(random_group.title)
     random_group_prompt = TTY::Prompt.new.select("What would you like to do?") do |menu|
       menu.choice "See the description.", -> {random_group.show_description(user_object)}
       menu.choice "Join this group.", -> {user_object.join_group(random_group)}
