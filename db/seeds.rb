@@ -11,7 +11,7 @@ group_json = RestClient.get("http://api.meetup.com/find/groups%3F&sign=true&phot
 group_array = JSON.parse(group_json)
 
 # mass assign group data
-group_array[0,40].each do |group|
+group_array[0,50].each do |group|
   new_group = Group.create(
     title: group["name"],
     category: group["category"]["name"],
