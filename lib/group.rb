@@ -28,7 +28,7 @@ class Group < ActiveRecord::Base
     random_group_prompt = TTY::Prompt.new.select("What would you like to do?") do |menu|
       menu.choice "See the description.", -> {random_group.show_description(user_object)}
       menu.choice "Join this group.", -> {user_object.join_group(random_group)}
-      menu.choice "Find a new suggestion.", -> {Group.find_random_group_by_category(user_object, category)}
+      menu.choice "Find a new suggestion in this category.", -> {Group.find_random_group_by_category(user_object, category)}
       menu.choice "Go back to main menu.", -> {Interface.main_menu(user_object)}
     end
   end

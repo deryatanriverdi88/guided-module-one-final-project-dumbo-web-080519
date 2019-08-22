@@ -29,8 +29,9 @@ class Interface
     end
   end
 
-  def category_menu(user_object)
-
+  def self.category_menu(user_object)
+    category_choice = @@prompt.select(Pastel.new.red("Categories:"), Group.find_group_categories)
+    Group.find_random_group_by_category(user_object, category_choice)
   end
 
   def self.group_menu(user_object, membership_object)
