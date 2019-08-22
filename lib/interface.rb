@@ -1,10 +1,5 @@
 class Interface
-  attr_accessor :prompt
   @@prompt = TTY::Prompt.new
-
-  # def initialize
-  #   @@prompt = TTY::Prompt.new
-  # end
 
   def self.welcome
     system "clear"
