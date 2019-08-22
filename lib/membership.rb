@@ -16,8 +16,7 @@ class Membership < ActiveRecord::Base
       meetup_menu = meetup_array.map do |meetup|
         ["#{meetup.location}; #{meetup.date}", meetup]
       end
-      meetup_hash = meetup_menu.to_h
-      meetup_prompt = TTY::Prompt.new.select("Select an upcoming event", meetup_hash)
+      meetup_prompt = TTY::Prompt.new.select("Select an upcoming event", meetup_menu.to_h)
       Interface.meetup_menu(user_object, meetup_prompt)
     else
       puts "This group does not have any upcoming meetups!"
@@ -31,12 +30,5 @@ class Membership < ActiveRecord::Base
     return_prompt = TTY::Prompt.new.keypress("Press enter or space to go back", keys: [:space, :return])
     Interface.group_menu(user_object, self)
   end
-
-  # membership_array = self.find_memberships
-  # if membership_array != []
-  #   membership_menu = membership_array.map do |membership|
-  #     ["#{membership.group_name}", membership]
-  #   end
-  #   membership_hash = membership_menu.to_h
 
 end

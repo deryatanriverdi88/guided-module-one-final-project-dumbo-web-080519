@@ -4,6 +4,28 @@ class User < ActiveRecord::Base
   has_many :rsvps
   has_many :meetups, through: :rsvps
 
+
+  def self.handle_new_user
+    username = TTY::Prompt.new.ask("What do you want your username to be?", active_color: :red)
+    if User.find_by(name: username)
+      TTY::Prompt.new.keypress(Pastel.new.red("\nA user with that username already exists. Press any key to try again."))
+      nil
+    else
+      User.create(name: username)
+    end
+  end
+
+  def self.handle_returning_user
+    puts "What is your username?"
+    username = STDIN.gets.chomp
+    if User.find_by(name: username)
+      User.find_by(name: username)
+    else
+      TTY::Prompt.new.keypress(Pastel.new.red("No user with that username exists. Press any key to try again."))
+      Interface.welcome
+    end
+  end
+
   def update_account_info
     update_prompt = TTY::Prompt.new.select("What would you like to update?") do |menu|
       menu.choice "Age", -> {self.update_age}
@@ -30,28 +52,6 @@ class User < ActiveRecord::Base
     Interface.main_menu(self)
   end
 
-  def self.handle_new_user
-    # puts "What do you want your username to be?"
-    username = TTY::Prompt.new.ask("What do you want your username to be?", active_color: :red)
-    if User.find_by(name: username)
-      TTY::Prompt.new.keypress(Pastel.new.red("\nA user with that username already exists. Press any key to try again."))
-      nil
-    else
-      User.create(name: username)
-    end
-  end
-
-  def self.handle_returning_user
-    puts "What is your username?"
-    username = STDIN.gets.chomp
-    if User.find_by(name: username)
-      User.find_by(name: username)
-    else
-      TTY::Prompt.new.keypress(Pastel.new.red("No user with that username exists. Press any key to try again."))
-      Interface.welcome
-    end
-  end
-
   def join_group(group)
     if !Membership.find_by(user_id: self.id, group_id: group.id)
       Membership.create(
@@ -73,14 +73,12 @@ class User < ActiveRecord::Base
   end
 
   def list_groups
-    # binding.pry
     membership_array = self.find_memberships
     if membership_array != []
       membership_menu = membership_array.map do |membership|
         ["#{membership.group_name}", membership]
       end
-      membership_hash = membership_menu.to_h
-      membership_prompt = TTY::Prompt.new.select("Pick a group:", membership_hash)
+      membership_prompt = TTY::Prompt.new.select("Pick a group:", membership_menu.to_h)
       Interface.group_menu(self, membership_prompt)
     else
       TTY::Prompt.new.keypress(Pastel.new.red("You are not in any groups! Press any key to continue."))
