@@ -12,6 +12,10 @@
 
   `bundle install`
 
+* Create a local database by running the following command in your terminal:
+
+  `rake db:migrate`
+
 * To seed data from Meetup.com API, execute the following command:
 
   `rake db:seed`
