@@ -30,4 +30,22 @@ class Group < ActiveRecord::Base
     end
   end
 
+  def find_memberships
+    Membership.all.select do |membership|
+      membership.group_id == self.id
+    end
+  end
+
+  def find_user_list(user_object)
+    memberships = self.find_memberships
+    user_list = memberships.map do |membership|
+      membership.user_name
+    end
+    user_list.uniq!
+    puts Pastel.new.green("This group has #{user_list.size} members: ")
+    puts user_list
+    TTY::Prompt.new.keypress(Pastel.new.red("Press any key to return to menu."))
+    Interface.main_menu(user_object)
+  end
+
 end

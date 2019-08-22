@@ -33,6 +33,7 @@ class Interface
       @@prompt.select("What would you like to do?") do |menu|
         menu.choice "See upcoming events.", -> {membership_object.check_upcoming_events(user_object)}
         menu.choice "See group description.", -> {membership_object.show_description(user_object)}
+        menu.choice "See this groups members.", -> {membership_object.find_group_object.find_user_list(user_object)}
         menu.choice "Leave this group.", -> {user_object.leave_group(membership_object)}
         menu.choice "Go back to main menu.", -> {Interface.main_menu(user_object)}
       end
