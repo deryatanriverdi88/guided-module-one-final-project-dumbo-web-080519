@@ -2,6 +2,12 @@ class Group < ActiveRecord::Base
   has_many :memberships
   has_many :users, through: :memberships
 
+  def self.find_group_categories
+    category_list = Group.all.map do |group|
+      group.category
+    end
+    category_list.uniq
+  end
 
   def self.find_random_group(user_object)
     system "clear"
@@ -12,6 +18,24 @@ class Group < ActiveRecord::Base
       menu.choice "Join this group.", -> {user_object.join_group(random_group)}
       menu.choice "Find a new suggestion.", -> {Group.find_random_group(user_object)}
       menu.choice "Go back to main menu.", -> {Interface.main_menu(user_object)}
+    end
+  end
+
+  def self.find_random_group_by_category(user_object, category)
+    system "clear"
+    random_group = Group.find_groups_of_category(category).sample
+    puts Pastel.new.red(random_group.title)
+    random_group_prompt = TTY::Prompt.new.select("What would you like to do?") do |menu|
+      menu.choice "See the description.", -> {random_group.show_description(user_object)}
+      menu.choice "Join this group.", -> {user_object.join_group(random_group)}
+      menu.choice "Find a new suggestion.", -> {Group.find_random_group_by_category(user_object, category)}
+      menu.choice "Go back to main menu.", -> {Interface.main_menu(user_object)}
+    end
+  end
+
+  def self.find_groups_of_category(category)
+    Group.all.select do |group|
+      group.category == category
     end
   end
 

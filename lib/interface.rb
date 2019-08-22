@@ -21,11 +21,16 @@ class Interface
     puts "Age: #{user_object.age}, Location: #{user_object.location}"
     @@prompt.select("Main menu :") do |menu|
       menu.choice "Find a random group.", -> {Group.find_random_group(user_object)}
+      menu.choice "Find a random group by category.", -> {Interface.category_menu(user_object)}
       menu.choice "See what groups you are a member of.", -> {user_object.list_groups}
       menu.choice "See which events you have RSVP'd to.", -> {user_object.show_rsvp}
       menu.choice "Update your account information.", -> {user_object.update_account_info}
       menu.choice "Exit.", -> {exit!}
     end
+  end
+
+  def category_menu(user_object)
+
   end
 
   def self.group_menu(user_object, membership_object)
