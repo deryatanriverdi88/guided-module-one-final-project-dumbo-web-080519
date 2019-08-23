@@ -34,9 +34,7 @@ class Group < ActiveRecord::Base
   end
 
   def self.find_groups_of_category(category)
-    Group.all.select do |group|
-      group.category == category
-    end
+    Group.all.where(category: category)
   end
 
   def show_description(user_object)
