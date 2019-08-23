@@ -10,8 +10,11 @@ class User < ActiveRecord::Base
     if User.find_by(name: username)
       TTY::Prompt.new.keypress(Pastel.new.red("\nA user with that username already exists. Press any key to try again."))
       nil
-    else
+    elsif username != nil
       User.create(name: username)
+    else
+      TTY::Prompt.new.keypress(Pastel.new.red("\nPlease enter a valid name. Press any key to try again."))
+      User.handle_new_user
     end
   end
 
