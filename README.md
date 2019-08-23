@@ -29,5 +29,8 @@
 
 ---
 * ##### [Link to Screenshots](https://github.com/deryatanriverdi88/guided-module-one-final-project-dumbo-web-080519/blob/master/SCREENSHOTS.md)
+
+* ##### [Link to video walk through](https://youtu.be/i7-u-rQn55s)
+
 * ##### [Contributor Guidelines](https://github.com/deryatanriverdi88/guided-module-one-final-project-dumbo-web-080519/blob/master/CONTRIBUTING.md)
 * ##### [License Information](https://github.com/deryatanriverdi88/guided-module-one-final-project-dumbo-web-080519/blob/master/LICENSE.md)
