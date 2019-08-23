@@ -63,6 +63,7 @@ class User < ActiveRecord::Base
         group_id: group.id,
         group_name: group.title
       )
+      TTY::Prompt.new.keypress(Pastel.new.red("You have joined this group! Press any key to continue."))
     else
       TTY::Prompt.new.keypress(Pastel.new.red("You are already a member of this group! Press any key to continue."))
     end
